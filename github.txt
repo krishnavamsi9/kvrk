@@ -1,0 +1,61 @@
+#include<iostream>
+usingnamespacestd;
+int available_resources=5;
+pthread_mutex_tm =PTHREAD_MUTEX_INITIALIZER;
+int decreasecount(intcount)
+{
+if(available_resources<count)
+{
+ printf("\nStartofapplicationsaredeniedsincealthelicensesareinuse\n");
+ return-1;
+}
+else
+{
+pthread_mutex_lock(&m);
+available_resources-=count; /*RaceCondition*/ 
+pthread_mutex_unlock(&m);
+return0;
+}
+printf("\nAfterstartingaltheapplicationstheremaininglicensesare %d",available_resources);
+}
+int increasecount(intcount)
+{
+pthread_mutex_lock(&m);
+available_resources+=count; /*RaceCondition*/ 
+pthread_mutex_unlock(&m);
+printf("\nAfterterminatingtheapplicationstheremaininglicensesare%d",available_resources);
+return0;
+}
+ 
+ int main()
+{
+intcount,s;
+while(s!=4)
+{
+printf("\nChooseanyofthebelowoptions:\n1.Startanapplication\n2.Terminatethe application\n3.Statusofcurentlyavailablelicenses\n4.Exit\n");
+scanf("%d",&s);
+switch(s)
+{
+case1:
+    printf("\nEnternoofapplicationsyouwanttostart"); 
+    scanf("%d",&count);
+    decreasecount(count); 
+    break;
+case2: 
+    printf("\nEnternoofapplicationsyouwanttoterminate"); 
+    scanf("%d",&count);
+    increasecount(count);
+    break;
+case3: 
+    printf("\nThenoofavailablelicensesare%d",available_resources); 
+    break;
+case4:
+   break;
+ default:
+    printf("\nPleasechooseanyoneoftheaboveoptions");
+   
+}
+} 
+return0;
+ }
+  
